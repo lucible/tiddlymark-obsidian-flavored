@@ -120,6 +120,17 @@ export function link(
   const target = sanitizeUrl(node.target) || '';
   const prefixed = links.prefixed.test(target);
   const external = links.external.test(target);
+  function getURLTarget(
+    target: String
+  ): String {
+    if (prefixed === true) {
+      return target;
+    } else if (external === false) {
+      return `#${target}`
+    } else {
+      return `#${target}`
+    }
+  }
   const attributes = {
     href: prefixed ? target : `#${target}`,
     title: target.split('/').pop(),
@@ -127,6 +138,12 @@ export function link(
     class: external ? 'tc-tiddlylink-external' : '',
     rel: external ? 'noopener noreferrer' : ''
   };
+  if (node.type === 'prettylink') {
+    // assign proper (flipped) href value
+    attributes.href = `#${node.content[0].content}`;
+    // assign proper (flipped) content value
+    node.content[0].content = node.target;
+  }
   return ['a', attributes, ...output(node.content, state)];
 }
 
