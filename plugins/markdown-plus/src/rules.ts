@@ -87,6 +87,20 @@ const newRules: JSONMLRules = {
     ),
     jsonml: jsonml.link
   },
+  plainlink: {
+    ...rules.link,
+    match: inline(
+      /^\[\[(([^\|]*?))\]\]/
+    ),
+    jsonml: jsonml.link
+  },
+  prettylink: {
+    ...rules.link,
+    match: inline(
+      /^\[\[(.*?)(?:\|(.*?))?\]\]/
+    ),
+    jsonml: jsonml.link
+  },
   image: {
     ...rules.image,
     match: inline(
